@@ -1,3 +1,6 @@
+[![Build Status](https://drone.io/github.com/christophehurpeau/dart-simple_oauth2_server/status.png)](https://drone.io/github.com/christophehurpeau/dart-simple_oauth2_server/latest)
+
+See the [auto-generated docs](http://christophehurpeau.github.io/dart-simple_oauth2_server/docs/)
 
 ### How to use
 

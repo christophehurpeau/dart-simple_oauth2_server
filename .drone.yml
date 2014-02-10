@@ -1,0 +1,8 @@
+image: dart
+notify:
+  email:
+    recipients:
+     -  christophe@hurpeau.com
+script:
+  - sh .drone.sh
+
