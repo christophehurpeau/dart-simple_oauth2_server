@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Dart-simple oauth2 server : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dart-simple oauth2 server</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/christophehurpeau/dart-simple_oauth2_server">View on GitHub</a>
+
+          <h1 id="project_title">Dart-simple oauth2 server</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/christophehurpeau/dart-simple_oauth2_server/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/christophehurpeau/dart-simple_oauth2_server/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><a href="https://drone.io/github.com/christophehurpeau/dart-simple_oauth2_server/latest"><img src="https://drone.io/github.com/christophehurpeau/dart-simple_oauth2_server/status.png" alt="Build Status"></a></p>
+
+<p>See the <a href="http://christophehurpeau.github.io/dart-simple_oauth2_server/docs/">auto-generated docs</a></p>
+
+<h3>
+<a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h3>
+
+<pre><code>part of server;
+
+Map authController(){
+
+  final identifier = "*********.apps.googleusercontent.com";
+  final secret = "*************";
+
+  final redirectUrl = Uri.parse("http://localhost:4040/auth/google-response");
+  final googleOauthClient = new OAuth2GoogleClient(identifier, secret);
+
+  final uuid = new Uuid();
+
+  return {
+    'google': (HttpRequest request, HttpResponse response){
+      var state = uuid.v1();
+      request.session['auth.googleUuid'] = state;
+
+      var redirectTo = googleOauthClient.getRedirectionUri(redirectUrl, params: {
+          'state': state,
+          'scopes': ['https://www.googleapis.com/auth/userinfo.profile',
+                          'https://www.googleapis.com/auth/userinfo.email']
+      });
+
+      response.redirect(redirectTo);
+    },
+    'google-response': (HttpRequest request, HttpResponse response){
+      var state = request.uri.queryParameters['state'];
+      if (state != null &amp;&amp; (request.session['auth.googleUuid'] == null 
+          || state != request.session['auth.googleUuid'])) {
+        response.redirect(Uri.parse('/auth/google'));
+        return;
+      }
+
+
+      googleOauthClient.createAccess(redirectUrl, request.uri.queryParameters['code'])
+        .then((OAuth2GoogleAccess _access){
+          access.retrieveMe()
+            .then((Map me){
+              print(me);
+            });
+        });
+      });
+    },
+  };
+}
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dart-simple oauth2 server maintained by <a href="https://github.com/christophehurpeau">christophehurpeau</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
