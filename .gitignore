@@ -1,0 +1,16 @@
+pubspec.lock
+packages
+
+/.settings
+.project
+
+#*
+*$
+*.BAK
+*.bak
+*.log
+*.old
+*~
+.#*
+.DS_Store
+,*
