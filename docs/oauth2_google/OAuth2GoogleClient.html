@@ -1,0 +1,215 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>OAuth2GoogleClient class / oauth2_google Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="oauth2_google" data-type="OAuth2GoogleClient">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../oauth2_google.html">oauth2_google</a> &rsaquo; <a href="../oauth2_google/OAuth2GoogleClient.html">OAuth2GoogleClient</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>OAuth2GoogleClient</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>Google connect, using OAuth 2</p>
+<p>Scopes : https://developers.google.com/gdata/faq#AuthScopes</p>
+<pre class="source">
+class OAuth2GoogleClient extends OAuth2Client {
+ final String _appId;
+ final String _secret;
+ 
+ OAuth2GoogleClient(String appId, String secret)
+   : super(appId, secret,
+         oauthUri: Uri.parse('https://accounts.google.com/o/oauth2/auth'),
+         tokenUri: Uri.parse('https://accounts.google.com/o/oauth2/token'),
+         apiUri: Uri.parse('https://www.googleapis.com/oauth2/v1/')
+       ), _appId = appId, _secret = secret;
+
+ Uri getRedirectionUri(Uri redirectUri, { Map params, offline: false }) {
+   if (offline) {
+     params['access_type'] = 'offline';
+     params['approval_prompt'] = 'force';
+   }
+   return super.getRedirectionUri(redirectUri, params: params);
+ }
+ 
+
+ Future&lt;OAuth2GoogleAccess&gt; createAccess(Uri redirectUri, String code) {
+   return getTokens(redirectUri, code).then((tokens) =&gt; new OAuth2GoogleAccess(this, tokens));
+ }
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../oauth2/OAuth2Client.html">OAuth2Client</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>OAuth2GoogleClient</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+new <strong>OAuth2GoogleClient</strong>(String appId, String secret) <a class="anchor-link" href="#"
+              title="Permalink to OAuth2GoogleClient.OAuth2GoogleClient">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+OAuth2GoogleClient(String appId, String secret)
+ : super(appId, secret,
+       oauthUri: Uri.parse('https://accounts.google.com/o/oauth2/auth'),
+       tokenUri: Uri.parse('https://accounts.google.com/o/oauth2/token'),
+       apiUri: Uri.parse('https://www.googleapis.com/oauth2/v1/')
+     ), _appId = appId, _secret = secret;
+</pre>
+</div>
+</div>
+</div>
+<div class="inherited">
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="apiUri">
+<button class="show-code">Code</button>
+final Uri         <strong>apiUri</strong> <a class="anchor-link"
+            href="#apiUri"
+            title="Permalink to OAuth2GoogleClient.apiUri">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Client.html">OAuth2Client</a> </div><div class="doc">
+<pre class="source">
+final Uri apiUri
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="oauthUri">
+<button class="show-code">Code</button>
+final Uri         <strong>oauthUri</strong> <a class="anchor-link"
+            href="#oauthUri"
+            title="Permalink to OAuth2GoogleClient.oauthUri">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Client.html">OAuth2Client</a> </div><div class="doc">
+<pre class="source">
+final Uri oauthUri
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tokenUri">
+<button class="show-code">Code</button>
+final Uri         <strong>tokenUri</strong> <a class="anchor-link"
+            href="#tokenUri"
+            title="Permalink to OAuth2GoogleClient.tokenUri">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Client.html">OAuth2Client</a> </div><div class="doc">
+<pre class="source">
+final Uri tokenUri
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="createAccess">
+<button class="show-code">Code</button>
+Future&lt;<a href="../oauth2_google/OAuth2GoogleAccess.html">OAuth2GoogleAccess</a>&gt; <strong>createAccess</strong>(Uri redirectUri, String code) <a class="anchor-link" href="#createAccess"
+              title="Permalink to OAuth2GoogleClient.createAccess">#</a></h4>
+<div class="doc">
+<pre class="source">
+Future&lt;OAuth2GoogleAccess&gt; createAccess(Uri redirectUri, String code) {
+ return getTokens(redirectUri, code).then((tokens) =&gt; new OAuth2GoogleAccess(this, tokens));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="getRedirectionUri">
+<button class="show-code">Code</button>
+Uri <strong>getRedirectionUri</strong>(Uri redirectUri, {Map params, offline: false}) <a class="anchor-link" href="#getRedirectionUri"
+              title="Permalink to OAuth2GoogleClient.getRedirectionUri">#</a></h4>
+<div class="doc">
+<pre class="source">
+Uri getRedirectionUri(Uri redirectUri, { Map params, offline: false }) {
+ if (offline) {
+   params['access_type'] = 'offline';
+   params['approval_prompt'] = 'force';
+ }
+ return super.getRedirectionUri(redirectUri, params: params);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getTokens">
+<button class="show-code">Code</button>
+Future&lt;Map&gt; <strong>getTokens</strong>(Uri redirectUri, String code) <a class="anchor-link" href="#getTokens"
+              title="Permalink to OAuth2GoogleClient.getTokens">#</a></h4>
+<div class="inherited-from">inherited from <a href="../oauth2/OAuth2Client.html">OAuth2Client</a> </div><div class="doc">
+<pre class="source">
+Future&lt;Map&gt; getTokens(Uri redirectUri, String code) {
+ http.Client client = new http.Client();
+ 
+ return client.post(tokenUri, body: {
+   'client_id': this._appId,
+   'redirect_uri': redirectUri.toString(),
+   'client_secret': this._secret,
+   'code': code,
+   'grant_type': 'authorization_code'
+ })
+   .then((http.Response response){
+     return JSON.decode(response.body);
+   });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="refreshTokens">
+<button class="show-code">Code</button>
+Future&lt;Map&gt; <strong>refreshTokens</strong>(Uri redirectUri, String refreshToken) <a class="anchor-link" href="#refreshTokens"
+              title="Permalink to OAuth2GoogleClient.refreshTokens">#</a></h4>
+<div class="inherited-from">inherited from <a href="../oauth2/OAuth2Client.html">OAuth2Client</a> </div><div class="doc">
+<pre class="source">
+Future&lt;Map&gt; refreshTokens(Uri redirectUri, String refreshToken) {
+ http.Client client = new http.Client();
+ 
+ return client.post(tokenUri, body: {
+   'client_id': this._appId,
+   'redirect_uri': redirectUri.toString(),
+   'client_secret': this._secret,
+   'refresh_token': refreshToken,
+   'grant_type': 'refresh_token'
+ })
+   .then((http.Response response){
+     return JSON.decode(response.body);
+   });
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2014-02-10 17:44:10.631</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

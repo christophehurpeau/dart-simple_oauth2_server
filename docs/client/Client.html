@@ -1,0 +1,289 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>Client abstract class / client Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="client" data-type="Client">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../client.html">client</a> &rsaquo; <a href="../client/Client.html">Client</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>Client</strong>
+          abstract class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>The interface for HTTP clients that take care of maintaining persistent
+connections across multiple requests to the same server. If you only need to
+send a single request, it's usually easier to use <a class="crossref" href="../client/Client.html#head">head</a>, <a class="crossref" href="../client/Client.html#get">get</a>, <a class="crossref" href="../client/Client.html#post">post</a>,
+<a class="crossref" href="../client/Client.html#put">put</a>, or <a class="crossref" href="../client/Client.html#delete">delete</a> instead.</p>
+<p>When creating an HTTP client class with additional functionality, you must
+extend <a class="crossref" href="../base_client/BaseClient.html">BaseClient</a> rather than <a class="crossref" href="../client/Client.html">Client</a>. In most cases, you can wrap
+another instance of <a class="crossref" href="../client/Client.html">Client</a> and add functionality on top of that. This
+allows all classes implementing <a class="crossref" href="../client/Client.html">Client</a> to be mutually composable.</p>
+<pre class="source">
+abstract class Client {
+ /// Creates a new Client using the default implementation. This implementation
+ /// uses an underlying `dart:io` [HttpClient] to make requests.
+ factory Client() =&gt; new IOClient();
+
+ /// Sends an HTTP HEAD request with the given headers to the given URL, which
+ /// can be a [Uri] or a [String].
+ ///
+ /// For more fine-grained control over the request, use [send] instead.
+ Future&lt;Response&gt; head(url, {Map&lt;String, String&gt; headers});
+
+ /// Sends an HTTP GET request with the given headers to the given URL, which
+ /// can be a [Uri] or a [String].
+ ///
+ /// For more fine-grained control over the request, use [send] instead.
+ Future&lt;Response&gt; get(url, {Map&lt;String, String&gt; headers});
+
+ /// Sends an HTTP POST request with the given headers and body to the given
+ /// URL, which can be a [Uri] or a [String].
+ ///
+ /// [body] sets the body of the request. It can be a [String], a [List&lt;int&gt;]
+ /// or a [Map&lt;String, String&gt;]. If it's a String, it's encoded using
+ /// [encoding] and used as the body of the request. The content-type of the
+ /// request will default to "text/plain".
+ ///
+ /// If [body] is a List, it's used as a list of bytes for the body of the
+ /// request.
+ ///
+ /// If [body] is a Map, it's encoded as form fields using [encoding]. The
+ /// content-type of the request will be set to
+ /// `"application/x-www-form-urlencoded"`; this cannot be overridden.
+ ///
+ /// [encoding] defaults to [UTF8].
+ ///
+ /// For more fine-grained control over the request, use [send] instead.
+ Future&lt;Response&gt; post(url, {Map&lt;String, String&gt; headers, body,
+     Encoding encoding});
+
+ /// Sends an HTTP PUT request with the given headers and body to the given
+ /// URL, which can be a [Uri] or a [String].
+ ///
+ /// [body] sets the body of the request. It can be a [String], a [List&lt;int&gt;]
+ /// or a [Map&lt;String, String&gt;]. If it's a String, it's encoded using
+ /// [encoding] and used as the body of the request. The content-type of the
+ /// request will default to "text/plain".
+ ///
+ /// If [body] is a List, it's used as a list of bytes for the body of the
+ /// request.
+ ///
+ /// If [body] is a Map, it's encoded as form fields using [encoding]. The
+ /// content-type of the request will be set to
+ /// `"application/x-www-form-urlencoded"`; this cannot be overridden.
+ ///
+ /// [encoding] defaults to [UTF8].
+ ///
+ /// For more fine-grained control over the request, use [send] instead.
+ Future&lt;Response&gt; put(url, {Map&lt;String, String&gt; headers, body,
+     Encoding encoding});
+
+ /// Sends an HTTP DELETE request with the given headers to the given URL,
+ /// which can be a [Uri] or a [String].
+ ///
+ /// For more fine-grained control over the request, use [send] instead.
+ Future&lt;Response&gt; delete(url, {Map&lt;String, String&gt; headers});
+
+ /// Sends an HTTP GET request with the given headers to the given URL, which
+ /// can be a [Uri] or a [String], and returns a Future that completes to the
+ /// body of the response as a String.
+ ///
+ /// The Future will emit an [HttpException] if the response doesn't have a
+ /// success status code.
+ ///
+ /// For more fine-grained control over the request and response, use [send] or
+ /// [get] instead.
+ Future&lt;String&gt; read(url, {Map&lt;String, String&gt; headers});
+
+ /// Sends an HTTP GET request with the given headers to the given URL, which
+ /// can be a [Uri] or a [String], and returns a Future that completes to the
+ /// body of the response as a list of bytes.
+ ///
+ /// The Future will emit an [HttpException] if the response doesn't have a
+ /// success status code.
+ ///
+ /// For more fine-grained control over the request and response, use [send] or
+ /// [get] instead.
+ Future&lt;Uint8List&gt; readBytes(url, {Map&lt;String, String&gt; headers});
+
+ /// Sends an HTTP request and asynchronously returns the response.
+ Future&lt;StreamedResponse&gt; send(BaseRequest request);
+
+ /// Closes the client and cleans up any resources associated with it. It's
+ /// important to close each client when it's done being used; failing to do so
+ /// can cause the Dart process to hang.
+ void close();
+}
+</pre>
+</div>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../base_client/BaseClient.html">BaseClient</a></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+factory <strong>Client</strong>() <a class="anchor-link" href="#"
+              title="Permalink to Client.Client">#</a></h4>
+<div class="doc">
+<p>Creates a new Client using the default implementation. This implementation
+uses an underlying <code>dart:io</code> <code>HttpClient</code> to make requests.</p>
+<pre class="source">
+factory Client() =&gt; new IOClient();
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="close">
+abstract void <strong>close</strong>() <a class="anchor-link" href="#close"
+              title="Permalink to Client.close">#</a></h4>
+<div class="doc">
+<p>Closes the client and cleans up any resources associated with it. It's
+important to close each client when it's done being used; failing to do so
+can cause the Dart process to hang.</p>
+</div>
+</div>
+<div class="method"><h4 id="delete">
+abstract Future&lt;<a href="../response/Response.html">Response</a>&gt; <strong>delete</strong>(url, {Map&lt;String, String&gt; headers}) <a class="anchor-link" href="#delete"
+              title="Permalink to Client.delete">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP DELETE request with the given headers to the given URL,
+which can be a <code>Uri</code> or a <code>String</code>.</p>
+<p>For more fine-grained control over the request, use <a class="crossref" href="../client/Client.html#send">send</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="get">
+abstract Future&lt;<a href="../response/Response.html">Response</a>&gt; <strong>get</strong>(url, {Map&lt;String, String&gt; headers}) <a class="anchor-link" href="#get"
+              title="Permalink to Client.get">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP GET request with the given headers to the given URL, which
+can be a <code>Uri</code> or a <code>String</code>.</p>
+<p>For more fine-grained control over the request, use <a class="crossref" href="../client/Client.html#send">send</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="head">
+abstract Future&lt;<a href="../response/Response.html">Response</a>&gt; <strong>head</strong>(url, {Map&lt;String, String&gt; headers}) <a class="anchor-link" href="#head"
+              title="Permalink to Client.head">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP HEAD request with the given headers to the given URL, which
+can be a <code>Uri</code> or a <code>String</code>.</p>
+<p>For more fine-grained control over the request, use <a class="crossref" href="../client/Client.html#send">send</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="post">
+abstract Future&lt;<a href="../response/Response.html">Response</a>&gt; <strong>post</strong>(url, {Map&lt;String, String&gt; headers, body, Encoding encoding}) <a class="anchor-link" href="#post"
+              title="Permalink to Client.post">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP POST request with the given headers and body to the given
+URL, which can be a <code>Uri</code> or a <code>String</code>.</p>
+<p>
+<span class="param">body</span> sets the body of the request. It can be a <code>String</code>, a [List<int>]
+or a [Map<String, String>]. If it's a String, it's encoded using
+
+<span class="param">encoding</span> and used as the body of the request. The content-type of the
+request will default to "text/plain".</p>
+<p>If 
+<span class="param">body</span> is a List, it's used as a list of bytes for the body of the
+request.</p>
+<p>If 
+<span class="param">body</span> is a Map, it's encoded as form fields using 
+<span class="param">encoding</span>. The
+content-type of the request will be set to
+<code>"application/x-www-form-urlencoded"</code>; this cannot be overridden.</p>
+<p>
+<span class="param">encoding</span> defaults to <code>UTF8</code>.</p>
+<p>For more fine-grained control over the request, use <a class="crossref" href="../client/Client.html#send">send</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="put">
+abstract Future&lt;<a href="../response/Response.html">Response</a>&gt; <strong>put</strong>(url, {Map&lt;String, String&gt; headers, body, Encoding encoding}) <a class="anchor-link" href="#put"
+              title="Permalink to Client.put">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP PUT request with the given headers and body to the given
+URL, which can be a <code>Uri</code> or a <code>String</code>.</p>
+<p>
+<span class="param">body</span> sets the body of the request. It can be a <code>String</code>, a [List<int>]
+or a [Map<String, String>]. If it's a String, it's encoded using
+
+<span class="param">encoding</span> and used as the body of the request. The content-type of the
+request will default to "text/plain".</p>
+<p>If 
+<span class="param">body</span> is a List, it's used as a list of bytes for the body of the
+request.</p>
+<p>If 
+<span class="param">body</span> is a Map, it's encoded as form fields using 
+<span class="param">encoding</span>. The
+content-type of the request will be set to
+<code>"application/x-www-form-urlencoded"</code>; this cannot be overridden.</p>
+<p>
+<span class="param">encoding</span> defaults to <code>UTF8</code>.</p>
+<p>For more fine-grained control over the request, use <a class="crossref" href="../client/Client.html#send">send</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="read">
+abstract Future&lt;String&gt; <strong>read</strong>(url, {Map&lt;String, String&gt; headers}) <a class="anchor-link" href="#read"
+              title="Permalink to Client.read">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP GET request with the given headers to the given URL, which
+can be a <code>Uri</code> or a <code>String</code>, and returns a Future that completes to the
+body of the response as a String.</p>
+<p>The Future will emit an <code>HttpException</code> if the response doesn't have a
+success status code.</p>
+<p>For more fine-grained control over the request and response, use <a class="crossref" href="../client/Client.html#send">send</a> or
+<a class="crossref" href="../client/Client.html#get">get</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="readBytes">
+abstract Future&lt;Uint8List&gt; <strong>readBytes</strong>(url, {Map&lt;String, String&gt; headers}) <a class="anchor-link" href="#readBytes"
+              title="Permalink to Client.readBytes">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP GET request with the given headers to the given URL, which
+can be a <code>Uri</code> or a <code>String</code>, and returns a Future that completes to the
+body of the response as a list of bytes.</p>
+<p>The Future will emit an <code>HttpException</code> if the response doesn't have a
+success status code.</p>
+<p>For more fine-grained control over the request and response, use <a class="crossref" href="../client/Client.html#send">send</a> or
+<a class="crossref" href="../client/Client.html#get">get</a> instead.</p>
+</div>
+</div>
+<div class="method"><h4 id="send">
+abstract Future&lt;<a href="../streamed_response/StreamedResponse.html">StreamedResponse</a>&gt; <strong>send</strong>(<a href="../base_request/BaseRequest.html">BaseRequest</a> request) <a class="anchor-link" href="#send"
+              title="Permalink to Client.send">#</a></h4>
+<div class="doc">
+<p>Sends an HTTP request and asynchronously returns the response.</p>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2014-02-10 17:44:10.376</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        

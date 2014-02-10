@@ -1,0 +1,250 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>OAuth2GoogleAccess class / oauth2_google Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="oauth2_google" data-type="OAuth2GoogleAccess">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../oauth2_google.html">oauth2_google</a> &rsaquo; <a href="../oauth2_google/OAuth2GoogleAccess.html">OAuth2GoogleAccess</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>OAuth2GoogleAccess</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+class OAuth2GoogleAccess extends OAuth2Access {
+ OAuth2GoogleAccess(OAuth2GoogleClient client, tokens) : super(client, tokens);
+
+ String get meUrl =&gt; 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}';
+ 
+ Future&lt;Map&gt; allContacts([ minUpdated ]){
+   var params = {
+     'v': '3',
+     'alt': 'json',
+     'max-results': '99999',
+     'access_token': accessToken
+     
+   };
+   if (minUpdated != null) {
+     params['min-updated'] = minUpdated; //toRFC3339Time
+   }
+   
+   var uri = new Uri.https('www.google.com','/m8/feeds/contacts/default/full', params);
+   
+   return httpClient.get(uri)
+     .then((http.Response response){
+       return JSON.decode(response.body);
+     });
+ }
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../oauth2/OAuth2Access.html">OAuth2Access</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>OAuth2GoogleAccess</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="">
+<button class="show-code">Code</button>
+new <strong>OAuth2GoogleAccess</strong>(<a href="../oauth2_google/OAuth2GoogleClient.html">OAuth2GoogleClient</a> client, tokens) <a class="anchor-link" href="#"
+              title="Permalink to OAuth2GoogleAccess.OAuth2GoogleAccess">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Creates a new <code>Object</code> instance.</p>
+<p><code>Object</code> instances have no meaningful state, and are only useful
+through their identity. An <code>Object</code> instance is equal to itself
+only.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+OAuth2GoogleAccess(OAuth2GoogleClient client, tokens) : super(client, tokens);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="accessToken">
+<button class="show-code">Code</button>
+final String         <strong>accessToken</strong> <a class="anchor-link"
+            href="#accessToken"
+            title="Permalink to OAuth2GoogleAccess.accessToken">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+String get accessToken =&gt; credentials['access_token'];
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="client">
+<button class="show-code">Code</button>
+final <a href="../oauth2/OAuth2Client.html">OAuth2Client</a>         <strong>client</strong> <a class="anchor-link"
+            href="#client"
+            title="Permalink to OAuth2GoogleAccess.client">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+final OAuth2Client client
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="credentials">
+<button class="show-code">Code</button>
+final Map         <strong>credentials</strong> <a class="anchor-link"
+            href="#credentials"
+            title="Permalink to OAuth2GoogleAccess.credentials">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+final Map credentials
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="expiration">
+<button class="show-code">Code</button>
+final String         <strong>expiration</strong> <a class="anchor-link"
+            href="#expiration"
+            title="Permalink to OAuth2GoogleAccess.expiration">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+String get expiration =&gt; credentials['expiration'];
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="httpClient">
+<button class="show-code">Code</button>
+final <a href="../client/Client.html">Client</a>         <strong>httpClient</strong> <a class="anchor-link"
+            href="#httpClient"
+            title="Permalink to OAuth2GoogleAccess.httpClient">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+final http.Client httpClient = new http.Client()
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="me">
+<button class="show-code">Code</button>
+Map         <strong>me</strong> <a class="anchor-link"
+            href="#me"
+            title="Permalink to OAuth2GoogleAccess.me">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+Map me
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="meUrl">
+<button class="show-code">Code</button>
+final String         <strong>meUrl</strong> <a class="anchor-link"
+            href="#meUrl"
+            title="Permalink to OAuth2GoogleAccess.meUrl">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String get meUrl =&gt; 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}';
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="refreshToken">
+<button class="show-code">Code</button>
+final String         <strong>refreshToken</strong> <a class="anchor-link"
+            href="#refreshToken"
+            title="Permalink to OAuth2GoogleAccess.refreshToken">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+String get refreshToken =&gt; credentials['refresh_token'];
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="allContacts">
+<button class="show-code">Code</button>
+Future&lt;Map&gt; <strong>allContacts</strong>([minUpdated]) <a class="anchor-link" href="#allContacts"
+              title="Permalink to OAuth2GoogleAccess.allContacts">#</a></h4>
+<div class="doc">
+<pre class="source">
+Future&lt;Map&gt; allContacts([ minUpdated ]){
+ var params = {
+   'v': '3',
+   'alt': 'json',
+   'max-results': '99999',
+   'access_token': accessToken
+   
+ };
+ if (minUpdated != null) {
+   params['min-updated'] = minUpdated; //toRFC3339Time
+ }
+ 
+ var uri = new Uri.https('www.google.com','/m8/feeds/contacts/default/full', params);
+ 
+ return httpClient.get(uri)
+   .then((http.Response response){
+     return JSON.decode(response.body);
+   });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="isValidMe">
+<button class="show-code">Code</button>
+bool <strong>isValidMe</strong>() <a class="anchor-link" href="#isValidMe"
+              title="Permalink to OAuth2GoogleAccess.isValidMe">#</a></h4>
+<div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+bool isValidMe() {
+ return me.isNotEmpty &amp;&amp; me['error'] == null &amp;&amp; me['id'] != null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="retrieveMe">
+<button class="show-code">Code</button>
+Future&lt;Map&gt; <strong>retrieveMe</strong>() <a class="anchor-link" href="#retrieveMe"
+              title="Permalink to OAuth2GoogleAccess.retrieveMe">#</a></h4>
+<div class="inherited-from">inherited from <a href="../oauth2/OAuth2Access.html">OAuth2Access</a> </div><div class="doc">
+<pre class="source">
+Future&lt;Map&gt;retrieveMe() {
+ return httpClient.get(meUrl)
+   .then((http.Response response){
+     return me = JSON.decode(response.body);
+   });
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2014-02-10 17:44:10.608</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        
